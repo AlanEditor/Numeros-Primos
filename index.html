@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <title>Numéros Primos</title>
+</head>
+<body>
+    
+<nav class="navbar navbar-dark bg-primary mb-4">
+			<div class="container">
+				<div class="navbar-brand mb-0 h1">
+					<h3>Números Primos</h3>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container border border-5 rounded p-3">
+                <div class="row form-group">
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" placeholder="Numero Inicial" min="1" id="inicial">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" placeholder="Numero Final" min="1" id="final">
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" class="btn btn-primary" onclick="calcularPrimos()">Verificar</button>
+                    </div>
+                    <div class="col-sm-3">
+                        <h4 id="resultadoInicial" class="text-black border border-1"></h3>
+                        <h4 id="resultadoFinal" class="text-black border border-1"></h3>
+                        <h3 id="resultado" class="text-success border-1 border"></h3>
+                    </div>
+                </div>
+            </form>
+        </div>
+</body>
+
+<script>
+
+
+function calcularPrimos()
+{
+    var inicial = $('#inicial').val();
+    var final = $('#final').val();
+
+    console.log('Inicial: ' + inicial);
+    console.log('Final: ' + final);
+
+
+
+    if(inicial < 1 || final < 1) 
+    {
+        $("#resultado").html(' ');
+        alert('Insira números positivos e/ou maiores que 0');  
+    }
+    else if(inicial > final)
+    {
+        alert('O número inicial é maior que o final');
+    }
+    else
+    {
+        $.ajax({
+            url: 'primo.php',
+            type: 'get',
+            data: {
+                inicial: inicial,
+                final: final
+            }
+        })
+        .done(function (valor){
+            $("#resultadoInicial").html('Número Inicial: ' + inicial);
+            $("#resultadoFinal").html('Número Final: '+ final);
+            $("#resultado").html('Valores: '+ valor);
+        })
+        .fail(function(mensagem){
+            $("#resultado").html(mensagem);
+        });
+    }
+    
+    
+}
+
+
+</script>
+</html>
